@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Untuk Elis</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+      font-family: "Georgia", serif;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .envelope {
+      width: 200px;
+      height: 120px;
+      background: #c0392b;
+      position: relative;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 40px;
+      transition: transform 0.4s ease;
+    }
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 60px solid #e74c3c;
+      transform-origin: top center;
+      transition: transform 1s ease;
+    }
+
+    .open::before {
+      transform: rotateX(180deg);
+    }
+
+    .container {
+      max-width: 700px;
+      background-color: white;
+      padding: 30px 20px;
+      margin: 30px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      display: none;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: normal;
+      font-size: 1.8em;
+      margin-bottom: 30px;
+    }
+
+    #content p {
+      margin-bottom: 16px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: right;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      h1 {
+        font-size: 1.4em;
+      }
+
+      .envelope {
+        width: 150px;
+        height: 90px;
+      }
+
+      .envelope::before {
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        border-bottom: 45px solid #e74c3c;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="envelope" class="envelope" title="Klik untuk membuka surat"></div>
+
+  <div id="letter" class="container">
+    <h1>Untuk Elis</h1>
+    <div id="content"></div>
+    <div class="footer">
+      Dari seseorang yang pernah (dan mungkin masih) mencintaimu.
+    </div>
+  </div>
+
+  <script>
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const content = document.getElementById("content");
+
+    const paragraphs = [
+      "Hai Elis,",
+      "Di tengah malam-malam sunyi yang masih menyisakan bayangmu, aku menulis ini bukan untuk mengganggumu atau mengusik hidupmu, tapi hanya ingin menyampaikan rasa yang tertahan cukup lama—rasa terima kasih dan maaf yang mungkin belum sempat aku sampaikan dengan layak.",
+      "Terima kasih karena pernah hadir dalam hidupku. Kehadiranmu memberi warna, memberi harapan, dan memberi semangat meski tak selalu berjalan seperti yang aku bayangkan. Aku belajar banyak, bahkan dari diamnya kamu.",
+      "Aku tahu mungkin aku pernah membuatmu tidak nyaman, atau bahkan merasa bersalah karena kehadiranku. Untuk itu, aku minta maaf. Bukan maksudku membebani atau berharap yang tidak-tidak. Aku hanya ingin menjadi seseorang yang ada tanpa harus dimiliki.",
+      "Pernah ada waktu di mana aku berharap lebih—bahwa mungkin ada kemungkinan kecil untukku. Tapi kini aku sadar, rasa tidak pernah bisa dipaksakan. Dan aku menghargai kejujuranmu, walau saat itu cukup menyakitkan.",
+      "Sekarang, aku tidak lagi membawa harapan seperti dulu. Tapi aku masih membawa doamu. Karena di balik semua ini, aku tulus. Tulus ingin kamu bahagia, dengan atau tanpaku.",
+      "Jadi sekali lagi, terima kasih telah menjadi bagian dari hidupku, meski sebentar. Dan maaf jika aku pernah membuatmu merasa tidak nyaman. Semoga kamu menemukan kebahagiaan yang benar-benar membuatmu merasa dicintai.",
+    ];
+
+    function typeEffect(text, element, delay = 30) {
+      let i = 0;
+      const interval = setInterval(() => {
+        element.innerHTML += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, delay);
+    }
+
+    envelope.addEventListener("click", () => {
+      envelope.classList.add("open");
+
+      setTimeout(() => {
+        envelope.style.display = "none";
+        letter.style.display = "block";
+
+        let index = 0;
+
+        function showParagraph() {
+          if (index >= paragraphs.length) return;
+          const p = document.createElement("p");
+          content.appendChild(p);
+          typeEffect(paragraphs[index], p, 20);
+          index++;
+          setTimeout(showParagraph, 1200);
+        }
+
+        showParagraph();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
